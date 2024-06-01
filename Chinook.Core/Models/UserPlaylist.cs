@@ -1,4 +1,4 @@
-﻿namespace Chinook.Models;
+﻿namespace Chinook.Core.Models;
 
 public class UserPlaylist
 {

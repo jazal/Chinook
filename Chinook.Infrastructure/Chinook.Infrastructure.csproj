@@ -1,24 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <Compile Remove="Models\**" />
-    <Content Remove="Migrations\**" />
-    <Content Remove="Models\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <None Remove="Migrations\**" />
-    <None Remove="Models\**" />
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ChinookContext.cs" />
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -43,8 +46,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chinook.Core\Chinook.Core.csproj" />
-    <ProjectReference Include="..\Chinook.Infrastructure\Chinook.Infrastructure.csproj" />
-    <ProjectReference Include="..\Chinook.Services\Chinook.Services.csproj" />
   </ItemGroup>
 
 </Project>
