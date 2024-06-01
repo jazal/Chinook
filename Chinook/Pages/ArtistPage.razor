@@ -4,8 +4,12 @@
 @using Chinook.Infrastructure
 @using Chinook.Core.Models
 @using Chinook.ClientModels
+@using Chinook.Services.Artists
+@using Chinook.Services.Artists.Dtos
 @using Microsoft.EntityFrameworkCore
 @using System.Security.Claims;
+
+@inject IArtistService artistService
 
 @if (!string.IsNullOrWhiteSpace(InfoMessage))
 {
@@ -91,7 +95,7 @@ else
     [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
     private Modal PlaylistDialog { get; set; }
 
-    private Artist Artist;
+    private ArtistDto Artist;
     private List<PlaylistTrack> Tracks;
     private DbContext DbContext;
     private PlaylistTrack SelectedTrack;
@@ -103,8 +107,8 @@ else
         await InvokeAsync(StateHasChanged);
         CurrentUserId = await GetUserId();
         var DbContext = await DbFactory.CreateDbContextAsync();
-
-        Artist = DbContext.Artists.SingleOrDefault(a => a.ArtistId == ArtistId);
+        
+        Artist = await artistService.Get(ArtistId);
 
         Tracks = DbContext.Tracks.Where(a => a.Album.ArtistId == ArtistId)
             .Include(a => a.Album)

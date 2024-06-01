@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chinook.Core\Chinook.Core.csproj" />
+    <ProjectReference Include="..\Chinook.Infrastructure\Chinook.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

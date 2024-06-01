@@ -44,6 +44,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Chinook.Core\Chinook.Core.csproj" />
     <ProjectReference Include="..\Chinook.Infrastructure\Chinook.Infrastructure.csproj" />
+    <ProjectReference Include="..\Chinook.Services\Chinook.Services.csproj" />
   </ItemGroup>
 
 </Project>
