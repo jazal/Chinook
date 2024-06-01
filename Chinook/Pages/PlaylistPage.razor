@@ -1,7 +1,8 @@
 ﻿@page "/playlist/{PlaylistId:long}"
 @attribute [Authorize]
 
-@using Chinook.Models
+@using Chinook.Infrastructure;
+@using Chinook.Core.Models
 @using Microsoft.EntityFrameworkCore
 @using System.Security.Claims;
 

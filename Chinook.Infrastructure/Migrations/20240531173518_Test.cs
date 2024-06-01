@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Chinook.Migrations
+namespace Chinook.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    /// <inheritdoc />
+    public partial class Test : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -279,6 +281,30 @@ namespace Chinook.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserPlaylists",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    PlaylistId = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPlaylists", x => new { x.UserId, x.PlaylistId });
+                    table.ForeignKey(
+                        name: "FK_UserPlaylists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPlaylists_Playlist_PlaylistId",
+                        column: x => x.PlaylistId,
+                        principalTable: "Playlist",
+                        principalColumn: "PlaylistId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Track",
                 columns: table => new
                 {
@@ -469,8 +495,14 @@ namespace Chinook.Migrations
                 name: "IFK_TrackMediaTypeId",
                 table: "Track",
                 column: "MediaTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPlaylists_PlaylistId",
+                table: "UserPlaylists",
+                column: "PlaylistId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -495,19 +527,22 @@ namespace Chinook.Migrations
                 name: "PlaylistTrack");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "UserPlaylists");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Invoice");
 
             migrationBuilder.DropTable(
-                name: "Playlist");
+                name: "Track");
 
             migrationBuilder.DropTable(
-                name: "Track");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Playlist");
 
             migrationBuilder.DropTable(
                 name: "Customer");
