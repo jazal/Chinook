@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Chinook.Core.Extensions;
 using Chinook.Infrastructure;
 using Chinook.Services.Artists.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 
 namespace Chinook.Services.Artists
 {
@@ -23,12 +26,17 @@ namespace Chinook.Services.Artists
             return _mapper.Map<ArtistDto>(artist);
         }
 
-        public async Task<List<ArtistWithAlbumCountDto>> GetAll()
+        public async Task<List<ArtistWithAlbumCountDto>> GetAll(GetArtistsRequestDto input)
         {
             try
             {
+                if (!string.IsNullOrEmpty(input.Keyword)) input.Keyword = input.Keyword.ToUpper();
+
                 var artists = await _context.Artists
                     .Include(a => a.Albums)
+                    .WhereIf(!string.IsNullOrEmpty(input.Keyword),
+                        a => a.Name.ToUpper().Contains(input.Keyword)
+                    )
                     .ToListAsync();
                 return _mapper.Map<List<ArtistWithAlbumCountDto>>(artists);
             }

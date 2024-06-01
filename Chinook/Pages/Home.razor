@@ -13,6 +13,11 @@
 
 <h1>Artists</h1>
 
+<div>
+    <input class="form-control form-control-sm" @bind="SearchKeyword" placeholder="Search artists..." />
+    <button class="btn btn-sm btn-primary" @onclick="GetArtists">Search</button>
+</div>
+
 @if (Artists == null)
 {
     <Loading />
@@ -40,24 +45,25 @@ else
 
 @code {
     private List<ArtistWithAlbumCountDto> Artists;
-    [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
+    private string? SearchKeyword = "";
+    // [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
 
     protected override async Task OnInitializedAsync() {
         await InvokeAsync(StateHasChanged);
-        Artists = await GetArtists();
+        await GetArtists();
     }
 
-    public async Task<List<ArtistWithAlbumCountDto>> GetArtists()
+    public async Task GetArtists()
     {
-        var dbContext = await DbFactory.CreateDbContextAsync();
-        var users = dbContext.Users.Include(a => a.UserPlaylists).ToList();
+        // var dbContext = await DbFactory.CreateDbContextAsync();
+        // var users = dbContext.Users.Include(a => a.UserPlaylists).ToList();
 
-        return await artistService.GetAll();
+        Artists = await artistService.GetAll(new GetArtistsRequestDto { Keyword = SearchKeyword });
     }
 
-    public async Task<List<Album>> GetAlbumsForArtist(int artistId)
-    {
-        var dbContext = await DbFactory.CreateDbContextAsync();
-        return dbContext.Albums.Where(a => a.ArtistId == artistId).ToList();
-    }
+    // public async Task<List<Album>> GetAlbumsForArtist(int artistId)
+    // {
+    //     var dbContext = await DbFactory.CreateDbContextAsync();
+    //     return dbContext.Albums.Where(a => a.ArtistId == artistId).ToList();
+    // }
 }
