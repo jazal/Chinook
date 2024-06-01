@@ -2,7 +2,6 @@
 using Chinook.Core;
 using Chinook.Core.Models;
 using Chinook.Infrastructure;
-using Chinook.Services.Tracks.Dtos;
 using Chinook.Services.UserPlaylists.Dtos;
 using Microsoft.EntityFrameworkCore;
 

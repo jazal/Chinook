@@ -2,6 +2,6 @@
 {
     public static class ChinookConsts
     {
-        public const string MyFavorites = "Favorites";
+        public const string MyFavorites = "My favorite tracks";
     }
 }

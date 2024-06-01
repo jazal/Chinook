@@ -3,8 +3,6 @@ using Chinook.Core.Extensions;
 using Chinook.Infrastructure;
 using Chinook.Services.Artists.Dtos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 
 namespace Chinook.Services.Artists
 {

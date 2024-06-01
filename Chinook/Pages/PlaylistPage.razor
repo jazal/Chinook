@@ -1,6 +1,7 @@
 ﻿@page "/playlist/{PlaylistId:long}"
 @attribute [Authorize]
 
+@using Chinook.Core
 @using Chinook.Infrastructure;
 @using Chinook.Core.Models
 @using Microsoft.EntityFrameworkCore
@@ -89,7 +90,7 @@ else
                         ArtistName = t.Album.Artist.Name,
                         TrackId = t.TrackId,
                         TrackName = t.Name,
-                        IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == CurrentUserId && up.Playlist.Name == "Favorites")).Any()
+                        IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == CurrentUserId && up.Playlist.Name == ChinookConsts.MyFavorites)).Any()
                     }).ToList()
                 })
             .FirstOrDefault();
