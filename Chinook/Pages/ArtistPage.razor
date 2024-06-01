@@ -51,7 +51,7 @@ else
                     <td>@track.AlbumTitle</td>
                     <td>@track.TrackName</td>
                     <td>
-                        @if (track.IsFavorite)
+                        @if (track.IsFavorite == true)
                         {
                             <a href="#" class="m-1" title="Unmark as favorite" @onclick="@(() => UnfavoriteTrack(track.TrackId))" @onclick:preventDefault><i class="bi bi-star-fill"></i></a>
                         }
@@ -113,7 +113,7 @@ else
 
         Artist = await artistService.Get(ArtistId);
 
-        Tracks = await trackService.GetAlbumTracks(ArtistId, CurrentUserId);
+        await GetAlbumTracks();
     }
 
     private async Task<string> GetUserId()
@@ -123,14 +123,23 @@ else
         return userId;
     }
 
+    private async Task GetAlbumTracks()
+    {
+        CurrentUserId = await GetUserId();
+
+        Tracks = await trackService.GetAlbumTracks(ArtistId, CurrentUserId);
+    }
+
     private async Task FavoriteTrack(long trackId)
     {
         var track = Tracks.FirstOrDefault(t => t.TrackId == trackId);
 
         // TODO: add track to Favorites playlist
-        await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = await GetUserId(), TrackId = track.TrackId });
+        await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = await GetUserId(), TrackId = track.TrackId, IsFavorite = true });
 
         InfoMessage = $"Track {track.ArtistName} - {track.AlbumTitle} - {track.TrackName} added to playlist Favorites.";
+
+        await GetAlbumTracks();
     }
 
     private async Task UnfavoriteTrack(long trackId)
@@ -138,9 +147,11 @@ else
         var track = Tracks.FirstOrDefault(t => t.TrackId == trackId);
 
         // TODO: remove track from Favorites playlist
-        await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = await GetUserId(), TrackId = track.TrackId });
+        await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = await GetUserId(), TrackId = track.TrackId, IsFavorite = false });
 
         InfoMessage = $"Track {track.ArtistName} - {track.AlbumTitle} - {track.TrackName} removed from playlist Favorites.";
+
+        await GetAlbumTracks();
     }
 
     private void OpenPlaylistDialog(long trackId)

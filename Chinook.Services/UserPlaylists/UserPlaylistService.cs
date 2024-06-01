@@ -21,48 +21,79 @@ namespace Chinook.Services.UserPlaylists
 
         public async Task<bool> ToggleUserPlaylistAsync(ToggleUserPlaylistRequest input)
         {
-            var favoritePlaylist = await GetOrCreateFavoritePlaylistAsync();
+            long playlistId = 0;
 
             // Create Playlist Track
-            
             var userPlaylist = await _context.UserPlaylists
                 .Include(p => p.Playlist)
                 .FirstOrDefaultAsync(up => up.UserId == input.UserId && up.Playlist.Name.Equals(ChinookConsts.MyFavorites));
 
-            if (userPlaylist is not null)
+            if (userPlaylist is null)
             {
-                _context.UserPlaylists.Remove(userPlaylist);
-            }
-            else
-            {
+                var favoritePlaylist = await CreateFavoritePlaylistAsync();
+
                 userPlaylist = new UserPlaylist
                 {
                     UserId = input.UserId,
-                    PlaylistId = input.TrackId,
+                    PlaylistId = favoritePlaylist.PlaylistId,
                 };
                 _context.UserPlaylists.Add(userPlaylist);
+                await _context.SaveChangesAsync();
+
+                playlistId = favoritePlaylist.PlaylistId;
+            }
+            else
+            {
+                playlistId = userPlaylist.PlaylistId;
             }
 
-            await _context.SaveChangesAsync();
+            if (input.IsFavorite)
+            {
+                await AddTrackToPlaylistAsync(playlistId, input.TrackId);
+            }
+            else
+            {
+                await RemoveTrackFromPlaylistAsync(playlistId, input.TrackId);
+            }
+
             return true;
         }
 
-        private async Task<Playlist> GetOrCreateFavoritePlaylistAsync()
+        private async Task<Playlist> CreateFavoritePlaylistAsync()
         {
-            var favorite = await _context.Playlists
-                .FirstOrDefaultAsync(p => p.Name.Equals(ChinookConsts.MyFavorites));
-
-            if (favorite is not null) return favorite;
-
-            favorite = new Playlist
+            var favorite = new Playlist
             {
                 Name = ChinookConsts.MyFavorites,
             };
 
             await _context.Playlists.AddAsync(favorite);
-            
+
             await _context.SaveChangesAsync();
             return favorite;
+        }
+
+        public async Task AddTrackToPlaylistAsync(long playlistId, long trackId)
+        {
+            var playlist = await _context.Playlists.Include(p => p.Tracks).FirstOrDefaultAsync(p => p.PlaylistId == playlistId);
+            var track = await _context.Tracks.FirstOrDefaultAsync(t => t.TrackId == trackId);
+
+            if (playlist != null && track != null)
+            {
+                playlist.Tracks.Add(track);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveTrackFromPlaylistAsync(long playlistId, long trackId)
+        {
+            var playlist = await _context.Playlists.Include(p => p.Tracks).FirstOrDefaultAsync(p => p.PlaylistId == playlistId);
+            var track = await _context.Tracks.FirstOrDefaultAsync(t => t.TrackId == trackId);
+
+            if (playlist != null && track != null)
+            {
+                playlist.Tracks.Remove(track);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
