@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="XXX_Database\**" />
+    <Compile Remove="XXX_Migrations\**" />
+    <EmbeddedResource Remove="XXX_Database\**" />
+    <EmbeddedResource Remove="XXX_Migrations\**" />
+    <None Remove="XXX_Database\**" />
+    <None Remove="XXX_Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
   </ItemGroup>
