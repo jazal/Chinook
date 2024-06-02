@@ -14,7 +14,7 @@
 <h1>Artists</h1>
 
 <div>
-    <input class="form-control form-control-sm" @bind="SearchKeyword" placeholder="Search artists..." />
+    <input class="form-control form-control-sm mb-1" @bind="SearchKeyword" placeholder="Search artists..." />
     <button class="btn btn-sm btn-primary" @onclick="GetArtists">Search</button>
 </div>
 
@@ -46,24 +46,15 @@ else
 @code {
     private List<ArtistWithAlbumCountDto> Artists;
     private string? SearchKeyword = "";
-    // [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
         await InvokeAsync(StateHasChanged);
         await GetArtists();
     }
 
     public async Task GetArtists()
     {
-        // var dbContext = await DbFactory.CreateDbContextAsync();
-        // var users = dbContext.Users.Include(a => a.UserPlaylists).ToList();
-
         Artists = await artistService.GetAll(new GetArtistsRequestDto { Keyword = SearchKeyword });
     }
-
-    // public async Task<List<Album>> GetAlbumsForArtist(int artistId)
-    // {
-    //     var dbContext = await DbFactory.CreateDbContextAsync();
-    //     return dbContext.Albums.Where(a => a.ArtistId == artistId).ToList();
-    // }
 }
