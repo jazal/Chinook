@@ -6,6 +6,10 @@ namespace Chinook.Services.Playlists
     {
         Task<List<PlaylistDto>> GetAll(GetPlaylistsRequestDto input);
 
+        Task<bool> IsPlaylistNameExist(string playlistName);
+
         Task AddTrackToPlaylistAsync(AddTrackToPlaylistRequestDto input);
+
+        Task<List<PlaylistDto>> GetPlaylistsByTrack(long trackId);
     }
 }

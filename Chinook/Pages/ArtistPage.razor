@@ -163,8 +163,14 @@ else
 
     private async Task OpenPlaylistDialog(long trackId)
     {
-        await GetPlaylists();
         CloseInfoMessage();
+
+        await GetPlaylists();
+        Payload.NewPlaylist = null;
+
+        var playlists = await playlistService.GetPlaylistsByTrack(trackId);
+        Payload.PlaylistId = playlists.Any() ? playlists[0].PlaylistId : null;
+        
         SelectedTrack = Tracks.FirstOrDefault(t => t.TrackId == trackId);
         PlaylistDialog.Open();
     }
@@ -177,12 +183,25 @@ else
     private async Task AddTrackToPlaylist()
     {
         // TODO
+        CloseInfoMessage();
+
+        if (!string.IsNullOrEmpty(Payload.NewPlaylist))
+        {
+            var isPlaylistExist = await playlistService.IsPlaylistNameExist(Payload.NewPlaylist);
+
+            if (isPlaylistExist)
+            {
+                InfoMessage = $"Playlist {Payload.NewPlaylist} already exist.";
+                PlaylistDialog.Close();
+                return;
+            }
+        }
+
         Payload.TrackId = SelectedTrack.TrackId;
 
         await playlistService.AddTrackToPlaylistAsync(Payload);
         Payload = new AddTrackToPlaylistRequestDto();
 
-        CloseInfoMessage();
         InfoMessage = $"Track {Artist.Name} - {SelectedTrack.AlbumTitle} - {SelectedTrack.TrackName} added to playlist {{playlist name}}.";
         PlaylistDialog.Close();
     }

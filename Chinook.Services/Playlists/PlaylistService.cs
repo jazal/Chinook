@@ -30,6 +30,11 @@ namespace Chinook.Services.Playlists
                 .ToListAsync();
         }
 
+        public async Task<bool> IsPlaylistNameExist(string playlistName)
+        {
+            return _context.Playlists.Any(p => p.Name.ToUpper().Equals(playlistName.ToUpper()));
+        }
+
         public async Task AddTrackToPlaylistAsync(AddTrackToPlaylistRequestDto input)
         {
             try
@@ -44,6 +49,24 @@ namespace Chinook.Services.Playlists
                     playlist.Tracks.Add(track);
                     await _context.SaveChangesAsync();
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<PlaylistDto>> GetPlaylistsByTrack(long trackId)
+        {
+            try
+            {
+                return await _context.Tracks
+                    .Include(t => t.Playlists)
+                    .Where(t => t.TrackId == trackId)
+                    .Select(t => t.Playlists)
+                    .SelectMany(ps => ps)
+                    .Select(p => _mapper.Map<PlaylistDto>(p))
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
