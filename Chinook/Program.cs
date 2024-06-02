@@ -2,6 +2,7 @@ using Chinook.Areas.Identity;
 using Chinook.Core.Models;
 using Chinook.Infrastructure;
 using Chinook.Services.Artists;
+using Chinook.Services.Playlists;
 using Chinook.Services.Tracks;
 using Chinook.Services.UserPlaylists;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -24,6 +25,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<ITrackService, TrackService>();
 builder.Services.AddScoped<IUserPlaylistService, UserPlaylistService>();
+builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
