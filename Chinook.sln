@@ -10,11 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{7A
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinook.Core", "Chinook.Core\Chinook.Core.csproj", "{FA1E72F5-65A9-4686-9426-7204D94FD193}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chinook.Core", "Chinook.Core\Chinook.Core.csproj", "{FA1E72F5-65A9-4686-9426-7204D94FD193}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinook.Infrastructure", "Chinook.Infrastructure\Chinook.Infrastructure.csproj", "{34A8639A-4275-4B1C-B0A6-F6C7B04FB622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chinook.Infrastructure", "Chinook.Infrastructure\Chinook.Infrastructure.csproj", "{34A8639A-4275-4B1C-B0A6-F6C7B04FB622}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinook.Services", "Chinook.Services\Chinook.Services.csproj", "{53C8C4C3-26AB-4F51-BB28-4EA88F8C58F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chinook.Services", "Chinook.Services\Chinook.Services.csproj", "{53C8C4C3-26AB-4F51-BB28-4EA88F8C58F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

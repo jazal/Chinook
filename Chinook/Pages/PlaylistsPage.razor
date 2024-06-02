@@ -1,0 +1,53 @@
+﻿@page "/playlists/"
+@attribute [Authorize]
+
+@using Chinook.Infrastructure
+@using Chinook.Core.Models
+@using Chinook.Services.Playlists
+@using Chinook.Services.Playlists.Dtos
+@using Microsoft.EntityFrameworkCore
+
+@inject IPlaylistService playlistService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Playlists</h1>
+
+@if (Playlists == null)
+{
+    <Loading />
+}
+else
+{
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var playlist in Playlists)
+            {
+                <tr>
+                    <td><a href="Playlist/@playlist.PlaylistId">@playlist.Name</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<PlaylistDto>
+    Playlists;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InvokeAsync(StateHasChanged);
+        await GetPlaylists();
+    }
+
+    public async Task GetPlaylists()
+    {
+        Playlists = await playlistService.GetAll(new GetPlaylistsRequestDto { IsFavoriteIncluded = true });
+    }
+}
