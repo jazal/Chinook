@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Chinook.Core.Models
+﻿namespace Chinook.Core.Models
 {
     public partial class Playlist
     {

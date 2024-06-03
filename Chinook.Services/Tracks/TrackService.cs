@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using Chinook.Core.Models;
+using Chinook.Core;
 using Chinook.Infrastructure;
-using Chinook.Services.Artists.Dtos;
 using Chinook.Services.Tracks.Dtos;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chinook.Services.Tracks
 {
@@ -34,7 +28,7 @@ namespace Chinook.Services.Tracks
                    TrackName = t.Name,
                    IsFavorite = 
                         t.Playlists
-                        .Where(p => p.UserPlaylists.Any(up => up.UserId == userId && up.Playlist.Name == "Favorites"))
+                        .Where(p => p.UserPlaylists.Any(up => up.UserId == userId && up.Playlist.Name == ChinookConsts.MyFavorites))
                         .Any()
                })
                .ToListAsync();

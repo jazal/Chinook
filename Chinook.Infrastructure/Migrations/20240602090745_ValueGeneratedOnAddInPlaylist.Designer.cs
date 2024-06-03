@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Chinook.Infrastructure.Migrations
+namespace Chinook.Migrations
 {
     [DbContext(typeof(ChinookContext))]
-    [Migration("20240531173518_Test")]
-    partial class Test
+    [Migration("20240602090745_ValueGeneratedOnAddInPlaylist")]
+    partial class ValueGeneratedOnAddInPlaylist
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -317,6 +317,7 @@ namespace Chinook.Infrastructure.Migrations
             modelBuilder.Entity("Chinook.Core.Models.Playlist", b =>
                 {
                     b.Property<long>("PlaylistId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

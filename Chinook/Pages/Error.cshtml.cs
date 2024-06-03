@@ -7,6 +7,10 @@ namespace Chinook.Pages;
 [IgnoreAntiforgeryToken]
 public class ErrorModel : PageModel
 {
+    public string? ErrorMessage { get; set; } = "An unexpected error occurred.";
+
+    public string? ErrorDetail { get; set; }
+
     public string? RequestId { get; set; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
@@ -18,8 +22,18 @@ public class ErrorModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
+    public void OnGet(string? message, string? detail)
     {
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+
+        if (!string.IsNullOrEmpty(message))
+        {
+            ErrorMessage = message;
+        }
+
+        if (!string.IsNullOrEmpty(detail))
+        {
+            ErrorDetail = detail;
+        }
     }
 }
