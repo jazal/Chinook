@@ -101,7 +101,7 @@ else
     {
         var track = Playlist.Tracks.FirstOrDefault(t => t.TrackId == trackId);
 
-        // TODO: add track to Favorites playlist
+        // Add track to Favorites playlist
         await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = CurrentUserId, TrackId = trackId, IsFavorite = true });
 
         InfoMessage = $"Track {track.ArtistName} - {track.AlbumTitle} - {track.TrackName} added to playlist Favorites.";
@@ -112,7 +112,7 @@ else
     {
         var track = Playlist.Tracks.FirstOrDefault(t => t.TrackId == trackId);
 
-        // TODO: remove track from Favorites playlist
+        // Remove track from Favorites playlist
         await userPlaylistService.ToggleUserPlaylistAsync(new ToggleUserPlaylistRequest { UserId = CurrentUserId, TrackId = trackId, IsFavorite = false });
 
         InfoMessage = $"Track {track.ArtistName} - {track.AlbumTitle} - {track.TrackName} removed from playlist Favorites.";
@@ -121,7 +121,6 @@ else
 
     private async Task RemoveTrack(long trackId)
     {
-        // TODO
         CloseInfoMessage();
 
         var isDeleted = await userPlaylistService.RemoveTrackFromPlaylistAsync(PlaylistId, trackId);
