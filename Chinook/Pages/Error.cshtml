@@ -17,6 +17,7 @@
         <div class="content px-4">
             <h1 class="text-danger">Error.</h1>
             <h2 class="text-danger">An error occurred while processing your request.</h2>
+            <h2 class="text-danger">@Model.ErrorMessage</h2>
 
             @if (Model.ShowRequestId)
             {
@@ -24,6 +25,17 @@
                     <strong>Request ID:</strong> <code>@Model.RequestId</code>
                 </p>
             }
+            
+            <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Detail
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <p class="text-muted">@Model.ErrorDetail</p>
+            </div>
+
+            <a href="/" class="btn btn-primary">Go Back</a>
 
             <h3>Development Mode</h3>
             <p>
@@ -37,6 +49,6 @@
             </p>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
