@@ -1,4 +1,84 @@
-# Chinook
+# Chinook Application
+
+## Overview
+
+The Chinook application is a full-stack Razor project built using .NET 8, SQLite 3, and a Code-First approach. The project is structured into separate class projects, each handling distinct functionality to ensure modularity and maintainability.
+
+## Technology Stack
+
+- **.NET 8**
+- **SQLite 3**
+- **Entity Framework Core 8 (Code-First)**
+
+## Project Structure
+
+The solution is divided into several class projects, each with a specific role:
+
+1. **Chinook.Core**
+   - **Description**: Contains the base models that replicate the database structure.
+   - **Components**: 
+     - Base Models
+
+2. **Chinook.Infrastructure**
+   - **Description**: Manages the database and migrations.
+   - **Components**: 
+     - Database Context
+     - Migrations
+
+3. **Chinook.Services**
+   - **Description**: Contains the business logic of the application.
+   - **Components**:
+     - Service Interfaces and Implementations for Artists, Playlists, Tracks, and User Playlists
+
+4. **Chinook**
+   - **Description**: The Razor application that includes the Razor pages, components, error handling logics, and dependency injection setup.
+   - **Components**:
+     - Razor Pages
+     - Razor Components
+     - Error Handling
+     - Dependency Injection Configuration (built in)
+
+## Features
+
+- **Modular Architecture**: Separation of concerns into different class projects for better maintainability.
+- **Built-in Dependency Injection**: Utilizes .NET Core's built-in dependency injection.
+- **Error Handling**: Centralized error handling using custom middleware and Razor pages.
+- **Entity Framework Core Migrations**: Manages database schema changes through migrations.
+
+## Setting Up the Project
+
+### Prerequisites
+
+- .NET 8 SDK
+- SQLite 3
+
+### Migration and Database Setup
+
+1. **Point to Chinook.Infrastructure**: Ensure your migration commands target the `Chinook.Infrastructure` class project.
+2. **Run Migrations**: Use the following commands to apply migrations and update the database.
+
+ ```sh
+ cd Chinook.Infrastructure
+ dotnet ef migrations add InitialCreate
+ dotnet ef database update
+```
+
+### Running the Application
+1. Build the Solution: Build the entire solution to restore all dependencies and compile the projects.
+```sh
+dotnet build
+```
+
+2. Run the Application: Start the Razor application.
+ ```sh
+cd Chinook
+dotnet run
+```
+
+### Summary
+The Chinook application is a well-structured Razor project leveraging .NET 8 and SQLite 3, with a clear separation of concerns through the use of different class projects. This approach ensures modularity and ease of maintenance, while built-in dependency injection and centralized error handling enhance the robustness of the application.
+
+# Chinook Tasks
 
 This application is unfinished. Please complete below tasks. Spend max 2 hours.
 We would like to have a short written explanation of the changes you made.
