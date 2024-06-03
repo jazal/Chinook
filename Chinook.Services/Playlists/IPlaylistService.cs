@@ -11,5 +11,7 @@ namespace Chinook.Services.Playlists
         Task AddTrackToPlaylistAsync(AddTrackToPlaylistRequestDto input);
 
         Task<List<PlaylistDto>> GetPlaylistsByTrack(long trackId);
+
+        Task<PlaylistVM> GetPlaylistTracks(long playlistId, string currentUserId);
     }
 }

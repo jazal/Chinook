@@ -71,7 +71,7 @@ namespace Chinook.Services.UserPlaylists
             return favorite;
         }
 
-        public async Task AddTrackToPlaylistAsync(long playlistId, long trackId)
+        public async Task<bool> AddTrackToPlaylistAsync(long playlistId, long trackId)
         {
             var playlist = await _context.Playlists.Include(p => p.Tracks).FirstOrDefaultAsync(p => p.PlaylistId == playlistId);
             var track = await _context.Tracks.FirstOrDefaultAsync(t => t.TrackId == trackId);
@@ -80,10 +80,12 @@ namespace Chinook.Services.UserPlaylists
             {
                 playlist.Tracks.Add(track);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
-        public async Task RemoveTrackFromPlaylistAsync(long playlistId, long trackId)
+        public async Task<bool> RemoveTrackFromPlaylistAsync(long playlistId, long trackId)
         {
             var playlist = await _context.Playlists.Include(p => p.Tracks).FirstOrDefaultAsync(p => p.PlaylistId == playlistId);
             var track = await _context.Tracks.FirstOrDefaultAsync(t => t.TrackId == trackId);
@@ -92,7 +94,9 @@ namespace Chinook.Services.UserPlaylists
             {
                 playlist.Tracks.Remove(track);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
     }
 }

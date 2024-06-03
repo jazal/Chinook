@@ -74,6 +74,28 @@ namespace Chinook.Services.Playlists
             }
         }
 
+        public async Task<PlaylistVM> GetPlaylistTracks(long playlistId, string currentUserId)
+        {
+            return await _context.Playlists
+                .Include(a => a.Tracks)
+                .ThenInclude(a => a.Album)
+                .ThenInclude(a => a.Artist)
+                .Where(p => p.PlaylistId == playlistId)
+                .Select(p => new PlaylistVM
+                {
+                    Name = p.Name,
+                    Tracks = p.Tracks.Select(t => new PlaylistTrackVM
+                    {
+                        AlbumTitle = t.Album.Title,
+                        ArtistName = t.Album.Artist.Name,
+                        TrackId = t.TrackId,
+                        TrackName = t.Name,
+                        IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == currentUserId && up.Playlist.Name == ChinookConsts.MyFavorites)).Any()
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
+
         private async Task<long> CreatePlaylistAsync(string playlistName)
         {
             var playlist = new Playlist { Name = playlistName };

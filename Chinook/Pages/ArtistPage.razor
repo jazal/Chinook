@@ -200,9 +200,9 @@ else
         Payload.TrackId = SelectedTrack.TrackId;
 
         await playlistService.AddTrackToPlaylistAsync(Payload);
+        InfoMessage = $"Track {Artist.Name} - {SelectedTrack.AlbumTitle} - {SelectedTrack.TrackName} added to playlist.";
+        
         Payload = new AddTrackToPlaylistRequestDto();
-
-        InfoMessage = $"Track {Artist.Name} - {SelectedTrack.AlbumTitle} - {SelectedTrack.TrackName} added to playlist {{playlist name}}.";
         PlaylistDialog.Close();
     }
 
